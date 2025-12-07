@@ -1,0 +1,2 @@
+secret x = 100;
+send(x);

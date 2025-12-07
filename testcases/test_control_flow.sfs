@@ -1,0 +1,15 @@
+x = 10;
+if (x > 5) {
+    x = x + 1;
+} else {
+    x = x - 1;
+}
+
+switch(x) {
+    case 11:
+        x = 0;
+        break;
+    case 12:
+        x = 1;
+        break;
+}
