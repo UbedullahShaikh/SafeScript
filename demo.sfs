@@ -1,3 +1,5 @@
-secret x = 10 + 20;
-secret y = 100 - 50;
-send(x);
+secret x = 50;
+if (x > 10) {
+    x = encrypt(x);
+    send(x);
+}

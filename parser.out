@@ -6,249 +6,559 @@ Unused terminals:
 
 Grammar
 
-Rule 0     S' -> statement
-Rule 1     statement -> KEYWORD_SECRET ID ASSIGN expression SEMI
-Rule 2     expression -> expression PLUS expression
-Rule 3     expression -> expression MINUS expression
-Rule 4     expression -> NUMBER
+Rule 0     S' -> program
+Rule 1     program -> statements
+Rule 2     statements -> statement statements
+Rule 3     statements -> <empty>
+Rule 4     statement -> KEYWORD_SECRET ID ASSIGN expression SEMI
 Rule 5     statement -> ID ASSIGN KEYWORD_ENCRYPT LPAREN ID RPAREN SEMI
 Rule 6     statement -> KEYWORD_SEND LPAREN ID RPAREN SEMI
+Rule 7     if_head -> KEYWORD_IF LPAREN expression RPAREN
+Rule 8     statement -> if_head LBRACE statements RBRACE
+Rule 9     expression -> expression PLUS expression
+Rule 10    expression -> expression MINUS expression
+Rule 11    expression -> expression GT expression
+Rule 12    expression -> expression LT expression
+Rule 13    expression -> NUMBER
+Rule 14    expression -> ID
 
 Terminals, with rules where they appear
 
-ASSIGN               : 1 5
-ID                   : 1 5 5 6
+ASSIGN               : 4 5
+GT                   : 11
+ID                   : 4 5 5 6 14
 KEYWORD_ENCRYPT      : 5
+KEYWORD_IF           : 7
 KEYWORD_PUBLIC       : 
-KEYWORD_SECRET       : 1
+KEYWORD_SECRET       : 4
 KEYWORD_SEND         : 6
-LPAREN               : 5 6
-MINUS                : 3
-NUMBER               : 4
-PLUS                 : 2
-RPAREN               : 5 6
-SEMI                 : 1 5 6
+LBRACE               : 8
+LPAREN               : 5 6 7
+LT                   : 12
+MINUS                : 10
+NUMBER               : 13
+PLUS                 : 9
+RBRACE               : 8
+RPAREN               : 5 6 7
+SEMI                 : 4 5 6
 error                : 
 
 Nonterminals, with rules where they appear
 
-expression           : 1 2 2 3 3
-statement            : 0
+expression           : 4 7 9 9 10 10 11 11 12 12
+if_head              : 8
+program              : 0
+statement            : 2
+statements           : 1 2 8
 
 Parsing method: LALR
 
 state 0
 
-    (0) S' -> . statement
-    (1) statement -> . KEYWORD_SECRET ID ASSIGN expression SEMI
+    (0) S' -> . program
+    (1) program -> . statements
+    (2) statements -> . statement statements
+    (3) statements -> .
+    (4) statement -> . KEYWORD_SECRET ID ASSIGN expression SEMI
     (5) statement -> . ID ASSIGN KEYWORD_ENCRYPT LPAREN ID RPAREN SEMI
     (6) statement -> . KEYWORD_SEND LPAREN ID RPAREN SEMI
+    (8) statement -> . if_head LBRACE statements RBRACE
+    (7) if_head -> . KEYWORD_IF LPAREN expression RPAREN
 
-    KEYWORD_SECRET  shift and go to state 2
-    ID              shift and go to state 3
-    KEYWORD_SEND    shift and go to state 4
+    $end            reduce using rule 3 (statements -> .)
+    KEYWORD_SECRET  shift and go to state 4
+    ID              shift and go to state 5
+    KEYWORD_SEND    shift and go to state 6
+    KEYWORD_IF      shift and go to state 8
 
-    statement                      shift and go to state 1
+    program                        shift and go to state 1
+    statements                     shift and go to state 2
+    statement                      shift and go to state 3
+    if_head                        shift and go to state 7
 
 state 1
 
-    (0) S' -> statement .
+    (0) S' -> program .
 
 
 
 state 2
 
-    (1) statement -> KEYWORD_SECRET . ID ASSIGN expression SEMI
+    (1) program -> statements .
 
-    ID              shift and go to state 5
+    $end            reduce using rule 1 (program -> statements .)
 
 
 state 3
 
-    (5) statement -> ID . ASSIGN KEYWORD_ENCRYPT LPAREN ID RPAREN SEMI
+    (2) statements -> statement . statements
+    (2) statements -> . statement statements
+    (3) statements -> .
+    (4) statement -> . KEYWORD_SECRET ID ASSIGN expression SEMI
+    (5) statement -> . ID ASSIGN KEYWORD_ENCRYPT LPAREN ID RPAREN SEMI
+    (6) statement -> . KEYWORD_SEND LPAREN ID RPAREN SEMI
+    (8) statement -> . if_head LBRACE statements RBRACE
+    (7) if_head -> . KEYWORD_IF LPAREN expression RPAREN
 
-    ASSIGN          shift and go to state 6
+    $end            reduce using rule 3 (statements -> .)
+    RBRACE          reduce using rule 3 (statements -> .)
+    KEYWORD_SECRET  shift and go to state 4
+    ID              shift and go to state 5
+    KEYWORD_SEND    shift and go to state 6
+    KEYWORD_IF      shift and go to state 8
 
+    statement                      shift and go to state 3
+    statements                     shift and go to state 9
+    if_head                        shift and go to state 7
 
 state 4
 
-    (6) statement -> KEYWORD_SEND . LPAREN ID RPAREN SEMI
-
-    LPAREN          shift and go to state 7
-
-
-state 5
-
-    (1) statement -> KEYWORD_SECRET ID . ASSIGN expression SEMI
-
-    ASSIGN          shift and go to state 8
-
-
-state 6
-
-    (5) statement -> ID ASSIGN . KEYWORD_ENCRYPT LPAREN ID RPAREN SEMI
-
-    KEYWORD_ENCRYPT shift and go to state 9
-
-
-state 7
-
-    (6) statement -> KEYWORD_SEND LPAREN . ID RPAREN SEMI
+    (4) statement -> KEYWORD_SECRET . ID ASSIGN expression SEMI
 
     ID              shift and go to state 10
 
 
+state 5
+
+    (5) statement -> ID . ASSIGN KEYWORD_ENCRYPT LPAREN ID RPAREN SEMI
+
+    ASSIGN          shift and go to state 11
+
+
+state 6
+
+    (6) statement -> KEYWORD_SEND . LPAREN ID RPAREN SEMI
+
+    LPAREN          shift and go to state 12
+
+
+state 7
+
+    (8) statement -> if_head . LBRACE statements RBRACE
+
+    LBRACE          shift and go to state 13
+
+
 state 8
 
-    (1) statement -> KEYWORD_SECRET ID ASSIGN . expression SEMI
-    (2) expression -> . expression PLUS expression
-    (3) expression -> . expression MINUS expression
-    (4) expression -> . NUMBER
+    (7) if_head -> KEYWORD_IF . LPAREN expression RPAREN
 
-    NUMBER          shift and go to state 12
+    LPAREN          shift and go to state 14
 
-    expression                     shift and go to state 11
 
 state 9
 
-    (5) statement -> ID ASSIGN KEYWORD_ENCRYPT . LPAREN ID RPAREN SEMI
+    (2) statements -> statement statements .
 
-    LPAREN          shift and go to state 13
+    $end            reduce using rule 2 (statements -> statement statements .)
+    RBRACE          reduce using rule 2 (statements -> statement statements .)
 
 
 state 10
 
-    (6) statement -> KEYWORD_SEND LPAREN ID . RPAREN SEMI
+    (4) statement -> KEYWORD_SECRET ID . ASSIGN expression SEMI
 
-    RPAREN          shift and go to state 14
+    ASSIGN          shift and go to state 15
 
 
 state 11
 
-    (1) statement -> KEYWORD_SECRET ID ASSIGN expression . SEMI
-    (2) expression -> expression . PLUS expression
-    (3) expression -> expression . MINUS expression
+    (5) statement -> ID ASSIGN . KEYWORD_ENCRYPT LPAREN ID RPAREN SEMI
 
-    SEMI            shift and go to state 15
-    PLUS            shift and go to state 16
-    MINUS           shift and go to state 17
+    KEYWORD_ENCRYPT shift and go to state 16
 
 
 state 12
 
-    (4) expression -> NUMBER .
+    (6) statement -> KEYWORD_SEND LPAREN . ID RPAREN SEMI
 
-    SEMI            reduce using rule 4 (expression -> NUMBER .)
-    PLUS            reduce using rule 4 (expression -> NUMBER .)
-    MINUS           reduce using rule 4 (expression -> NUMBER .)
+    ID              shift and go to state 17
 
 
 state 13
 
-    (5) statement -> ID ASSIGN KEYWORD_ENCRYPT LPAREN . ID RPAREN SEMI
+    (8) statement -> if_head LBRACE . statements RBRACE
+    (2) statements -> . statement statements
+    (3) statements -> .
+    (4) statement -> . KEYWORD_SECRET ID ASSIGN expression SEMI
+    (5) statement -> . ID ASSIGN KEYWORD_ENCRYPT LPAREN ID RPAREN SEMI
+    (6) statement -> . KEYWORD_SEND LPAREN ID RPAREN SEMI
+    (8) statement -> . if_head LBRACE statements RBRACE
+    (7) if_head -> . KEYWORD_IF LPAREN expression RPAREN
 
-    ID              shift and go to state 18
+    RBRACE          reduce using rule 3 (statements -> .)
+    KEYWORD_SECRET  shift and go to state 4
+    ID              shift and go to state 5
+    KEYWORD_SEND    shift and go to state 6
+    KEYWORD_IF      shift and go to state 8
 
+    if_head                        shift and go to state 7
+    statements                     shift and go to state 18
+    statement                      shift and go to state 3
 
 state 14
 
-    (6) statement -> KEYWORD_SEND LPAREN ID RPAREN . SEMI
+    (7) if_head -> KEYWORD_IF LPAREN . expression RPAREN
+    (9) expression -> . expression PLUS expression
+    (10) expression -> . expression MINUS expression
+    (11) expression -> . expression GT expression
+    (12) expression -> . expression LT expression
+    (13) expression -> . NUMBER
+    (14) expression -> . ID
 
-    SEMI            shift and go to state 19
+    NUMBER          shift and go to state 20
+    ID              shift and go to state 21
 
+    expression                     shift and go to state 19
 
 state 15
 
-    (1) statement -> KEYWORD_SECRET ID ASSIGN expression SEMI .
+    (4) statement -> KEYWORD_SECRET ID ASSIGN . expression SEMI
+    (9) expression -> . expression PLUS expression
+    (10) expression -> . expression MINUS expression
+    (11) expression -> . expression GT expression
+    (12) expression -> . expression LT expression
+    (13) expression -> . NUMBER
+    (14) expression -> . ID
 
-    $end            reduce using rule 1 (statement -> KEYWORD_SECRET ID ASSIGN expression SEMI .)
+    NUMBER          shift and go to state 20
+    ID              shift and go to state 21
 
+    expression                     shift and go to state 22
 
 state 16
 
-    (2) expression -> expression PLUS . expression
-    (2) expression -> . expression PLUS expression
-    (3) expression -> . expression MINUS expression
-    (4) expression -> . NUMBER
+    (5) statement -> ID ASSIGN KEYWORD_ENCRYPT . LPAREN ID RPAREN SEMI
 
-    NUMBER          shift and go to state 12
+    LPAREN          shift and go to state 23
 
-    expression                     shift and go to state 20
 
 state 17
 
-    (3) expression -> expression MINUS . expression
-    (2) expression -> . expression PLUS expression
-    (3) expression -> . expression MINUS expression
-    (4) expression -> . NUMBER
+    (6) statement -> KEYWORD_SEND LPAREN ID . RPAREN SEMI
 
-    NUMBER          shift and go to state 12
+    RPAREN          shift and go to state 24
 
-    expression                     shift and go to state 21
 
 state 18
 
-    (5) statement -> ID ASSIGN KEYWORD_ENCRYPT LPAREN ID . RPAREN SEMI
+    (8) statement -> if_head LBRACE statements . RBRACE
 
-    RPAREN          shift and go to state 22
+    RBRACE          shift and go to state 25
 
 
 state 19
 
-    (6) statement -> KEYWORD_SEND LPAREN ID RPAREN SEMI .
+    (7) if_head -> KEYWORD_IF LPAREN expression . RPAREN
+    (9) expression -> expression . PLUS expression
+    (10) expression -> expression . MINUS expression
+    (11) expression -> expression . GT expression
+    (12) expression -> expression . LT expression
 
-    $end            reduce using rule 6 (statement -> KEYWORD_SEND LPAREN ID RPAREN SEMI .)
+    RPAREN          shift and go to state 26
+    PLUS            shift and go to state 27
+    MINUS           shift and go to state 28
+    GT              shift and go to state 29
+    LT              shift and go to state 30
 
 
 state 20
 
-    (2) expression -> expression PLUS expression .
-    (2) expression -> expression . PLUS expression
-    (3) expression -> expression . MINUS expression
+    (13) expression -> NUMBER .
 
-  ! shift/reduce conflict for PLUS resolved as shift
-  ! shift/reduce conflict for MINUS resolved as shift
-    SEMI            reduce using rule 2 (expression -> expression PLUS expression .)
-    PLUS            shift and go to state 16
-    MINUS           shift and go to state 17
-
-  ! PLUS            [ reduce using rule 2 (expression -> expression PLUS expression .) ]
-  ! MINUS           [ reduce using rule 2 (expression -> expression PLUS expression .) ]
+    RPAREN          reduce using rule 13 (expression -> NUMBER .)
+    PLUS            reduce using rule 13 (expression -> NUMBER .)
+    MINUS           reduce using rule 13 (expression -> NUMBER .)
+    GT              reduce using rule 13 (expression -> NUMBER .)
+    LT              reduce using rule 13 (expression -> NUMBER .)
+    SEMI            reduce using rule 13 (expression -> NUMBER .)
 
 
 state 21
 
-    (3) expression -> expression MINUS expression .
-    (2) expression -> expression . PLUS expression
-    (3) expression -> expression . MINUS expression
+    (14) expression -> ID .
 
-  ! shift/reduce conflict for PLUS resolved as shift
-  ! shift/reduce conflict for MINUS resolved as shift
-    SEMI            reduce using rule 3 (expression -> expression MINUS expression .)
-    PLUS            shift and go to state 16
-    MINUS           shift and go to state 17
-
-  ! PLUS            [ reduce using rule 3 (expression -> expression MINUS expression .) ]
-  ! MINUS           [ reduce using rule 3 (expression -> expression MINUS expression .) ]
+    RPAREN          reduce using rule 14 (expression -> ID .)
+    PLUS            reduce using rule 14 (expression -> ID .)
+    MINUS           reduce using rule 14 (expression -> ID .)
+    GT              reduce using rule 14 (expression -> ID .)
+    LT              reduce using rule 14 (expression -> ID .)
+    SEMI            reduce using rule 14 (expression -> ID .)
 
 
 state 22
 
-    (5) statement -> ID ASSIGN KEYWORD_ENCRYPT LPAREN ID RPAREN . SEMI
+    (4) statement -> KEYWORD_SECRET ID ASSIGN expression . SEMI
+    (9) expression -> expression . PLUS expression
+    (10) expression -> expression . MINUS expression
+    (11) expression -> expression . GT expression
+    (12) expression -> expression . LT expression
 
-    SEMI            shift and go to state 23
+    SEMI            shift and go to state 31
+    PLUS            shift and go to state 27
+    MINUS           shift and go to state 28
+    GT              shift and go to state 29
+    LT              shift and go to state 30
 
 
 state 23
 
+    (5) statement -> ID ASSIGN KEYWORD_ENCRYPT LPAREN . ID RPAREN SEMI
+
+    ID              shift and go to state 32
+
+
+state 24
+
+    (6) statement -> KEYWORD_SEND LPAREN ID RPAREN . SEMI
+
+    SEMI            shift and go to state 33
+
+
+state 25
+
+    (8) statement -> if_head LBRACE statements RBRACE .
+
+    KEYWORD_SECRET  reduce using rule 8 (statement -> if_head LBRACE statements RBRACE .)
+    ID              reduce using rule 8 (statement -> if_head LBRACE statements RBRACE .)
+    KEYWORD_SEND    reduce using rule 8 (statement -> if_head LBRACE statements RBRACE .)
+    KEYWORD_IF      reduce using rule 8 (statement -> if_head LBRACE statements RBRACE .)
+    $end            reduce using rule 8 (statement -> if_head LBRACE statements RBRACE .)
+    RBRACE          reduce using rule 8 (statement -> if_head LBRACE statements RBRACE .)
+
+
+state 26
+
+    (7) if_head -> KEYWORD_IF LPAREN expression RPAREN .
+
+    LBRACE          reduce using rule 7 (if_head -> KEYWORD_IF LPAREN expression RPAREN .)
+
+
+state 27
+
+    (9) expression -> expression PLUS . expression
+    (9) expression -> . expression PLUS expression
+    (10) expression -> . expression MINUS expression
+    (11) expression -> . expression GT expression
+    (12) expression -> . expression LT expression
+    (13) expression -> . NUMBER
+    (14) expression -> . ID
+
+    NUMBER          shift and go to state 20
+    ID              shift and go to state 21
+
+    expression                     shift and go to state 34
+
+state 28
+
+    (10) expression -> expression MINUS . expression
+    (9) expression -> . expression PLUS expression
+    (10) expression -> . expression MINUS expression
+    (11) expression -> . expression GT expression
+    (12) expression -> . expression LT expression
+    (13) expression -> . NUMBER
+    (14) expression -> . ID
+
+    NUMBER          shift and go to state 20
+    ID              shift and go to state 21
+
+    expression                     shift and go to state 35
+
+state 29
+
+    (11) expression -> expression GT . expression
+    (9) expression -> . expression PLUS expression
+    (10) expression -> . expression MINUS expression
+    (11) expression -> . expression GT expression
+    (12) expression -> . expression LT expression
+    (13) expression -> . NUMBER
+    (14) expression -> . ID
+
+    NUMBER          shift and go to state 20
+    ID              shift and go to state 21
+
+    expression                     shift and go to state 36
+
+state 30
+
+    (12) expression -> expression LT . expression
+    (9) expression -> . expression PLUS expression
+    (10) expression -> . expression MINUS expression
+    (11) expression -> . expression GT expression
+    (12) expression -> . expression LT expression
+    (13) expression -> . NUMBER
+    (14) expression -> . ID
+
+    NUMBER          shift and go to state 20
+    ID              shift and go to state 21
+
+    expression                     shift and go to state 37
+
+state 31
+
+    (4) statement -> KEYWORD_SECRET ID ASSIGN expression SEMI .
+
+    KEYWORD_SECRET  reduce using rule 4 (statement -> KEYWORD_SECRET ID ASSIGN expression SEMI .)
+    ID              reduce using rule 4 (statement -> KEYWORD_SECRET ID ASSIGN expression SEMI .)
+    KEYWORD_SEND    reduce using rule 4 (statement -> KEYWORD_SECRET ID ASSIGN expression SEMI .)
+    KEYWORD_IF      reduce using rule 4 (statement -> KEYWORD_SECRET ID ASSIGN expression SEMI .)
+    $end            reduce using rule 4 (statement -> KEYWORD_SECRET ID ASSIGN expression SEMI .)
+    RBRACE          reduce using rule 4 (statement -> KEYWORD_SECRET ID ASSIGN expression SEMI .)
+
+
+state 32
+
+    (5) statement -> ID ASSIGN KEYWORD_ENCRYPT LPAREN ID . RPAREN SEMI
+
+    RPAREN          shift and go to state 38
+
+
+state 33
+
+    (6) statement -> KEYWORD_SEND LPAREN ID RPAREN SEMI .
+
+    KEYWORD_SECRET  reduce using rule 6 (statement -> KEYWORD_SEND LPAREN ID RPAREN SEMI .)
+    ID              reduce using rule 6 (statement -> KEYWORD_SEND LPAREN ID RPAREN SEMI .)
+    KEYWORD_SEND    reduce using rule 6 (statement -> KEYWORD_SEND LPAREN ID RPAREN SEMI .)
+    KEYWORD_IF      reduce using rule 6 (statement -> KEYWORD_SEND LPAREN ID RPAREN SEMI .)
+    $end            reduce using rule 6 (statement -> KEYWORD_SEND LPAREN ID RPAREN SEMI .)
+    RBRACE          reduce using rule 6 (statement -> KEYWORD_SEND LPAREN ID RPAREN SEMI .)
+
+
+state 34
+
+    (9) expression -> expression PLUS expression .
+    (9) expression -> expression . PLUS expression
+    (10) expression -> expression . MINUS expression
+    (11) expression -> expression . GT expression
+    (12) expression -> expression . LT expression
+
+  ! shift/reduce conflict for PLUS resolved as shift
+  ! shift/reduce conflict for MINUS resolved as shift
+  ! shift/reduce conflict for GT resolved as shift
+  ! shift/reduce conflict for LT resolved as shift
+    RPAREN          reduce using rule 9 (expression -> expression PLUS expression .)
+    SEMI            reduce using rule 9 (expression -> expression PLUS expression .)
+    PLUS            shift and go to state 27
+    MINUS           shift and go to state 28
+    GT              shift and go to state 29
+    LT              shift and go to state 30
+
+  ! PLUS            [ reduce using rule 9 (expression -> expression PLUS expression .) ]
+  ! MINUS           [ reduce using rule 9 (expression -> expression PLUS expression .) ]
+  ! GT              [ reduce using rule 9 (expression -> expression PLUS expression .) ]
+  ! LT              [ reduce using rule 9 (expression -> expression PLUS expression .) ]
+
+
+state 35
+
+    (10) expression -> expression MINUS expression .
+    (9) expression -> expression . PLUS expression
+    (10) expression -> expression . MINUS expression
+    (11) expression -> expression . GT expression
+    (12) expression -> expression . LT expression
+
+  ! shift/reduce conflict for PLUS resolved as shift
+  ! shift/reduce conflict for MINUS resolved as shift
+  ! shift/reduce conflict for GT resolved as shift
+  ! shift/reduce conflict for LT resolved as shift
+    RPAREN          reduce using rule 10 (expression -> expression MINUS expression .)
+    SEMI            reduce using rule 10 (expression -> expression MINUS expression .)
+    PLUS            shift and go to state 27
+    MINUS           shift and go to state 28
+    GT              shift and go to state 29
+    LT              shift and go to state 30
+
+  ! PLUS            [ reduce using rule 10 (expression -> expression MINUS expression .) ]
+  ! MINUS           [ reduce using rule 10 (expression -> expression MINUS expression .) ]
+  ! GT              [ reduce using rule 10 (expression -> expression MINUS expression .) ]
+  ! LT              [ reduce using rule 10 (expression -> expression MINUS expression .) ]
+
+
+state 36
+
+    (11) expression -> expression GT expression .
+    (9) expression -> expression . PLUS expression
+    (10) expression -> expression . MINUS expression
+    (11) expression -> expression . GT expression
+    (12) expression -> expression . LT expression
+
+  ! shift/reduce conflict for PLUS resolved as shift
+  ! shift/reduce conflict for MINUS resolved as shift
+  ! shift/reduce conflict for GT resolved as shift
+  ! shift/reduce conflict for LT resolved as shift
+    RPAREN          reduce using rule 11 (expression -> expression GT expression .)
+    SEMI            reduce using rule 11 (expression -> expression GT expression .)
+    PLUS            shift and go to state 27
+    MINUS           shift and go to state 28
+    GT              shift and go to state 29
+    LT              shift and go to state 30
+
+  ! PLUS            [ reduce using rule 11 (expression -> expression GT expression .) ]
+  ! MINUS           [ reduce using rule 11 (expression -> expression GT expression .) ]
+  ! GT              [ reduce using rule 11 (expression -> expression GT expression .) ]
+  ! LT              [ reduce using rule 11 (expression -> expression GT expression .) ]
+
+
+state 37
+
+    (12) expression -> expression LT expression .
+    (9) expression -> expression . PLUS expression
+    (10) expression -> expression . MINUS expression
+    (11) expression -> expression . GT expression
+    (12) expression -> expression . LT expression
+
+  ! shift/reduce conflict for PLUS resolved as shift
+  ! shift/reduce conflict for MINUS resolved as shift
+  ! shift/reduce conflict for GT resolved as shift
+  ! shift/reduce conflict for LT resolved as shift
+    RPAREN          reduce using rule 12 (expression -> expression LT expression .)
+    SEMI            reduce using rule 12 (expression -> expression LT expression .)
+    PLUS            shift and go to state 27
+    MINUS           shift and go to state 28
+    GT              shift and go to state 29
+    LT              shift and go to state 30
+
+  ! PLUS            [ reduce using rule 12 (expression -> expression LT expression .) ]
+  ! MINUS           [ reduce using rule 12 (expression -> expression LT expression .) ]
+  ! GT              [ reduce using rule 12 (expression -> expression LT expression .) ]
+  ! LT              [ reduce using rule 12 (expression -> expression LT expression .) ]
+
+
+state 38
+
+    (5) statement -> ID ASSIGN KEYWORD_ENCRYPT LPAREN ID RPAREN . SEMI
+
+    SEMI            shift and go to state 39
+
+
+state 39
+
     (5) statement -> ID ASSIGN KEYWORD_ENCRYPT LPAREN ID RPAREN SEMI .
 
+    KEYWORD_SECRET  reduce using rule 5 (statement -> ID ASSIGN KEYWORD_ENCRYPT LPAREN ID RPAREN SEMI .)
+    ID              reduce using rule 5 (statement -> ID ASSIGN KEYWORD_ENCRYPT LPAREN ID RPAREN SEMI .)
+    KEYWORD_SEND    reduce using rule 5 (statement -> ID ASSIGN KEYWORD_ENCRYPT LPAREN ID RPAREN SEMI .)
+    KEYWORD_IF      reduce using rule 5 (statement -> ID ASSIGN KEYWORD_ENCRYPT LPAREN ID RPAREN SEMI .)
     $end            reduce using rule 5 (statement -> ID ASSIGN KEYWORD_ENCRYPT LPAREN ID RPAREN SEMI .)
+    RBRACE          reduce using rule 5 (statement -> ID ASSIGN KEYWORD_ENCRYPT LPAREN ID RPAREN SEMI .)
 
 WARNING: 
 WARNING: Conflicts:
 WARNING: 
-WARNING: shift/reduce conflict for PLUS in state 20 resolved as shift
-WARNING: shift/reduce conflict for MINUS in state 20 resolved as shift
-WARNING: shift/reduce conflict for PLUS in state 21 resolved as shift
-WARNING: shift/reduce conflict for MINUS in state 21 resolved as shift
+WARNING: shift/reduce conflict for PLUS in state 34 resolved as shift
+WARNING: shift/reduce conflict for MINUS in state 34 resolved as shift
+WARNING: shift/reduce conflict for GT in state 34 resolved as shift
+WARNING: shift/reduce conflict for LT in state 34 resolved as shift
+WARNING: shift/reduce conflict for PLUS in state 35 resolved as shift
+WARNING: shift/reduce conflict for MINUS in state 35 resolved as shift
+WARNING: shift/reduce conflict for GT in state 35 resolved as shift
+WARNING: shift/reduce conflict for LT in state 35 resolved as shift
+WARNING: shift/reduce conflict for PLUS in state 36 resolved as shift
+WARNING: shift/reduce conflict for MINUS in state 36 resolved as shift
+WARNING: shift/reduce conflict for GT in state 36 resolved as shift
+WARNING: shift/reduce conflict for LT in state 36 resolved as shift
+WARNING: shift/reduce conflict for PLUS in state 37 resolved as shift
+WARNING: shift/reduce conflict for MINUS in state 37 resolved as shift
+WARNING: shift/reduce conflict for GT in state 37 resolved as shift
+WARNING: shift/reduce conflict for LT in state 37 resolved as shift

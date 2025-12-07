@@ -25,10 +25,8 @@ def main():
         # Let's split by lines for this simple version or update grammar to handle multiple statements.
         # Updating grammar to handle list of statements is better, but for simplicity let's loop lines.
         
-        lines = code.split('\n')
-        for line in lines:
-            if line.strip():
-                parser.parse(line)
+        # Parse the whole program at once
+        parser.parse(code)
         
         # Output TAC
         tac_generator.print_tac()

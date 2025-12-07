@@ -13,6 +13,11 @@ tokens = (
     'RPAREN',
     'PLUS',
     'MINUS',
+    'KEYWORD_IF',
+    'LBRACE',
+    'RBRACE',
+    'GT',
+    'LT',
 )
 
 t_ASSIGN = r'='
@@ -21,6 +26,14 @@ t_LPAREN = r'\('
 t_RPAREN = r'\)'
 t_PLUS = r'\+'
 t_MINUS = r'-'
+t_LBRACE = r'\{'
+t_RBRACE = r'\}'
+t_GT = r'>'
+t_LT = r'<'
+
+def t_KEYWORD_IF(t):
+    r'if'
+    return t
 
 def t_KEYWORD_SECRET(t):
     r'secret'

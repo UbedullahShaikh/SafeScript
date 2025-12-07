@@ -6,9 +6,9 @@ _tabversion = '3.10'
 
 _lr_method = 'LALR'
 
-_lr_signature = 'ASSIGN ID KEYWORD_ENCRYPT KEYWORD_PUBLIC KEYWORD_SECRET KEYWORD_SEND LPAREN MINUS NUMBER PLUS RPAREN SEMIstatement : KEYWORD_SECRET ID ASSIGN expression SEMIexpression : expression PLUS expression\n                  | expression MINUS expressionexpression : NUMBERstatement : ID ASSIGN KEYWORD_ENCRYPT LPAREN ID RPAREN SEMIstatement : KEYWORD_SEND LPAREN ID RPAREN SEMI'
+_lr_signature = 'ASSIGN GT ID KEYWORD_ENCRYPT KEYWORD_IF KEYWORD_PUBLIC KEYWORD_SECRET KEYWORD_SEND LBRACE LPAREN LT MINUS NUMBER PLUS RBRACE RPAREN SEMIprogram : statementsstatements : statement statementsstatements : statement : KEYWORD_SECRET ID ASSIGN expression SEMIstatement : ID ASSIGN KEYWORD_ENCRYPT LPAREN ID RPAREN SEMIstatement : KEYWORD_SEND LPAREN ID RPAREN SEMIif_head : KEYWORD_IF LPAREN expression RPARENstatement : if_head LBRACE statements RBRACEexpression : expression PLUS expression\n                  | expression MINUS expression\n                  | expression GT expression\n                  | expression LT expressionexpression : NUMBERexpression : ID'
     
-_lr_action_items = {'KEYWORD_SECRET':([0,],[2,]),'ID':([0,2,7,13,],[3,5,10,18,]),'KEYWORD_SEND':([0,],[4,]),'$end':([1,15,19,23,],[0,-1,-6,-5,]),'ASSIGN':([3,5,],[6,8,]),'LPAREN':([4,9,],[7,13,]),'KEYWORD_ENCRYPT':([6,],[9,]),'NUMBER':([8,16,17,],[12,12,12,]),'RPAREN':([10,18,],[14,22,]),'SEMI':([11,12,14,20,21,22,],[15,-4,19,-2,-3,23,]),'PLUS':([11,12,20,21,],[16,-4,16,16,]),'MINUS':([11,12,20,21,],[17,-4,17,17,]),}
+_lr_action_items = {'$end':([0,1,2,3,9,25,31,33,39,],[-3,0,-1,-3,-2,-8,-4,-6,-5,]),'KEYWORD_SECRET':([0,3,13,25,31,33,39,],[4,4,4,-8,-4,-6,-5,]),'ID':([0,3,4,12,13,14,15,23,25,27,28,29,30,31,33,39,],[5,5,10,17,5,21,21,32,-8,21,21,21,21,-4,-6,-5,]),'KEYWORD_SEND':([0,3,13,25,31,33,39,],[6,6,6,-8,-4,-6,-5,]),'KEYWORD_IF':([0,3,13,25,31,33,39,],[8,8,8,-8,-4,-6,-5,]),'RBRACE':([3,9,13,18,25,31,33,39,],[-3,-2,-3,25,-8,-4,-6,-5,]),'ASSIGN':([5,10,],[11,15,]),'LPAREN':([6,8,16,],[12,14,23,]),'LBRACE':([7,26,],[13,-7,]),'KEYWORD_ENCRYPT':([11,],[16,]),'NUMBER':([14,15,27,28,29,30,],[20,20,20,20,20,20,]),'RPAREN':([17,19,20,21,32,34,35,36,37,],[24,26,-13,-14,38,-9,-10,-11,-12,]),'PLUS':([19,20,21,22,34,35,36,37,],[27,-13,-14,27,27,27,27,27,]),'MINUS':([19,20,21,22,34,35,36,37,],[28,-13,-14,28,28,28,28,28,]),'GT':([19,20,21,22,34,35,36,37,],[29,-13,-14,29,29,29,29,29,]),'LT':([19,20,21,22,34,35,36,37,],[30,-13,-14,30,30,30,30,30,]),'SEMI':([20,21,22,24,34,35,36,37,38,],[-13,-14,31,33,-9,-10,-11,-12,39,]),}
 
 _lr_action = {}
 for _k, _v in _lr_action_items.items():
@@ -17,7 +17,7 @@ for _k, _v in _lr_action_items.items():
       _lr_action[_x][_k] = _y
 del _lr_action_items
 
-_lr_goto_items = {'statement':([0,],[1,]),'expression':([8,16,17,],[11,20,21,]),}
+_lr_goto_items = {'program':([0,],[1,]),'statements':([0,3,13,],[2,9,18,]),'statement':([0,3,13,],[3,3,3,]),'if_head':([0,3,13,],[7,7,7,]),'expression':([14,15,27,28,29,30,],[19,22,34,35,36,37,]),}
 
 _lr_goto = {}
 for _k, _v in _lr_goto_items.items():
@@ -26,11 +26,19 @@ for _k, _v in _lr_goto_items.items():
        _lr_goto[_x][_k] = _y
 del _lr_goto_items
 _lr_productions = [
-  ("S' -> statement","S'",1,None,None,None),
-  ('statement -> KEYWORD_SECRET ID ASSIGN expression SEMI','statement',5,'p_statement_secret','parser.py',10),
-  ('expression -> expression PLUS expression','expression',3,'p_expression_binop','parser.py',23),
-  ('expression -> expression MINUS expression','expression',3,'p_expression_binop','parser.py',24),
-  ('expression -> NUMBER','expression',1,'p_expression_number','parser.py',33),
-  ('statement -> ID ASSIGN KEYWORD_ENCRYPT LPAREN ID RPAREN SEMI','statement',7,'p_statement_encrypt','parser.py',37),
-  ('statement -> KEYWORD_SEND LPAREN ID RPAREN SEMI','statement',5,'p_statement_send','parser.py',50),
+  ("S' -> program","S'",1,None,None,None),
+  ('program -> statements','program',1,'p_program','parser.py',10),
+  ('statements -> statement statements','statements',2,'p_statements_multiple','parser.py',14),
+  ('statements -> <empty>','statements',0,'p_statements_empty','parser.py',18),
+  ('statement -> KEYWORD_SECRET ID ASSIGN expression SEMI','statement',5,'p_statement_secret','parser.py',22),
+  ('statement -> ID ASSIGN KEYWORD_ENCRYPT LPAREN ID RPAREN SEMI','statement',7,'p_statement_encrypt','parser.py',31),
+  ('statement -> KEYWORD_SEND LPAREN ID RPAREN SEMI','statement',5,'p_statement_send','parser.py',40),
+  ('if_head -> KEYWORD_IF LPAREN expression RPAREN','if_head',4,'p_if_head','parser.py',48),
+  ('statement -> if_head LBRACE statements RBRACE','statement',4,'p_statement_if','parser.py',55),
+  ('expression -> expression PLUS expression','expression',3,'p_expression_binop','parser.py',62),
+  ('expression -> expression MINUS expression','expression',3,'p_expression_binop','parser.py',63),
+  ('expression -> expression GT expression','expression',3,'p_expression_binop','parser.py',64),
+  ('expression -> expression LT expression','expression',3,'p_expression_binop','parser.py',65),
+  ('expression -> NUMBER','expression',1,'p_expression_number','parser.py',82),
+  ('expression -> ID','expression',1,'p_expression_id','parser.py',86),
 ]
