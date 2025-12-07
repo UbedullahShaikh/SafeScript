@@ -1,0 +1,34 @@
+?? SafeScript Master Demo
+?? Features: RBAC, Control Flow, Optimization, Security
+
+?? 1. Guest Access (Restricted)
+login as guest;
+secret x = 100;
+?? send(x); ?? This would crash the compiler (Access Denied)
+
+?? 2. Admin Access (Privileged)
+login as admin;
+
+?? 3. Optimization (Constant Folding)
+?? 50 + 50 will be calculated as 100 at compile time
+
+secret y = 50 + 50; 
+
+?? 4. Control Flow (If-Else)
+if (y > 50) {
+    y = y - 10;
+} else {
+    y = y + 10;
+}
+
+?? 5. Advanced Logic (Switch-Case)
+switch(y) {
+    case 90:
+        ?? Correct path: Encrypt and Send
+        y = encrypt(y);
+        send(y);
+        break;
+    case 100:
+        ?? Forgot to encrypt? Compiler would catch this if we tried to send
+        break;
+}

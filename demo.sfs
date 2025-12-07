@@ -1,5 +1,0 @@
-secret x = 50;
-if (x > 10) {
-    x = encrypt(x);
-    send(x);
-}

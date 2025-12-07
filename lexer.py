@@ -114,6 +114,11 @@ def t_NUMBER(t):
     t.value = int(t.value)
     return t
 
+# Ignore Comments
+def t_ignore_COMMENT(t):
+    r'\?\?.*'
+    pass
+
 t_ignore = ' \t'
 
 def t_newline(t):

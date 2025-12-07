@@ -47,20 +47,18 @@ A secure, optimizing compiler for the **SafeScript** language. This compiler is 
     ```
 
 ## 🏃‍♂️ How to Run
-
-You can run the compiler on the provided demo files.
-
-**1. Test the Security System (Should Fail):**
+ 
+You can run the compiler on the master demo file which showcases all features.
+ 
 ```bash
-python main.py demo.sfs
+python main.py demo_master.sfs
 ```
-*Expected Output:* `SECURITY ALERT! 'x' is Secret. Encrypt it before sending!`
-
-**2. Test the Safe Flow (Should Pass):**
-```bash
-python main.py demo_safe.sfs
-```
-*Expected Output:* `Compilation Successful!` with generated TAC code.
+ 
+**What's inside `demo_master.sfs`?**
+1.  **Guest Access Check**: Shows how guests are blocked (commented out to prevent crash).
+2.  **Admin Access**: Shows successful encryption and sending.
+3.  **Optimization**: Demonstrates `50 + 50` becoming `100`.
+4.  **Control Flow**: Uses `if-else` and `switch-case` logic.
 
 ## 📂 Project Structure
 

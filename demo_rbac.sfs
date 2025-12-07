@@ -1,6 +1,0 @@
-login as guest;
-secret x = 1234;
-
-login as admin;
-x = encrypt(x);
-send(x);

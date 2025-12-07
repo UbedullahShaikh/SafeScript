@@ -1,3 +1,0 @@
-secret pass = 1234;
-pass = encrypt(pass);
-send(pass);
