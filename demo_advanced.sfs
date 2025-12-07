@@ -1,0 +1,18 @@
+secret x = 50;
+
+if (x > 100) {
+    x = x - 10;
+} else {
+    x = x + 10;
+}
+
+switch(x) {
+    case 60:
+        x = encrypt(x);
+        break;
+    case 70:
+        send(x);
+        break;
+}
+
+send(x);

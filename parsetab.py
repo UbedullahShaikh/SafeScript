@@ -6,9 +6,9 @@ _tabversion = '3.10'
 
 _lr_method = 'LALR'
 
-_lr_signature = 'nonassocLOWER_THAN_ELSEnonassocKEYWORD_ELSEASSIGN COLON GT ID KEYWORD_BREAK KEYWORD_CASE KEYWORD_DEFAULT KEYWORD_ELSE KEYWORD_ENCRYPT KEYWORD_IF KEYWORD_PUBLIC KEYWORD_SECRET KEYWORD_SEND KEYWORD_SWITCH LBRACE LPAREN LT MINUS NUMBER PLUS RBRACE RPAREN SEMIprogram : statementsstatements : statement statementsstatements : statement : KEYWORD_SECRET ID ASSIGN expression SEMIstatement : ID ASSIGN KEYWORD_ENCRYPT LPAREN ID RPAREN SEMIstatement : KEYWORD_SEND LPAREN ID RPAREN SEMIif_head : KEYWORD_IF LPAREN expression RPARENstatement : if_head LBRACE statements RBRACE KEYWORD_ELSE LBRACE statements RBRACEelse_marker : KEYWORD_ELSEstatement : if_head LBRACE statements RBRACE else_marker LBRACE statements RBRACEswitch_head : KEYWORD_SWITCH LPAREN expression RPARENstatement : switch_head LBRACE cases RBRACEcases : cases case\n             | emptycase_head : KEYWORD_CASE NUMBER COLONcase : case_head statements KEYWORD_BREAK SEMIempty :expression : expression PLUS expression\n                  | expression MINUS expression\n                  | expression GT expression\n                  | expression LT expressionexpression : NUMBERexpression : IDstatement : if_head LBRACE statements RBRACE %prec LOWER_THAN_ELSE'
+_lr_signature = 'nonassocLOWER_THAN_ELSEnonassocKEYWORD_ELSEASSIGN COLON GT ID KEYWORD_BREAK KEYWORD_CASE KEYWORD_DEFAULT KEYWORD_ELSE KEYWORD_ENCRYPT KEYWORD_IF KEYWORD_PUBLIC KEYWORD_SECRET KEYWORD_SEND KEYWORD_SWITCH LBRACE LPAREN LT MINUS NUMBER PLUS RBRACE RPAREN SEMIprogram : statementsstatements : statement statementsstatements : statement : KEYWORD_SECRET ID ASSIGN expression SEMIstatement : ID ASSIGN KEYWORD_ENCRYPT LPAREN ID RPAREN SEMIstatement : KEYWORD_SEND LPAREN ID RPAREN SEMIstatement : ID ASSIGN expression SEMIif_head : KEYWORD_IF LPAREN expression RPARENstatement : if_head LBRACE statements RBRACE %prec LOWER_THAN_ELSEstatement : if_head LBRACE statements RBRACE KEYWORD_ELSE LBRACE statements RBRACEelse_marker : KEYWORD_ELSEstatement : if_head LBRACE statements RBRACE else_marker LBRACE statements RBRACEswitch_head : KEYWORD_SWITCH LPAREN expression RPARENstatement : switch_head LBRACE cases RBRACEcases : cases case\n             | emptycase_head : KEYWORD_CASE NUMBER COLONcase : case_head statements KEYWORD_BREAK SEMIempty :expression : expression PLUS expression\n                  | expression MINUS expression\n                  | expression GT expression\n                  | expression LT expressionexpression : NUMBERexpression : ID'
     
-_lr_action_items = {'$end':([0,1,2,3,11,32,33,43,45,59,63,64,],[-3,0,-1,-3,-2,-24,-12,-4,-6,-5,-8,-10,]),'KEYWORD_SECRET':([0,3,15,32,33,35,43,45,55,56,58,59,63,64,],[4,4,4,-24,-12,4,-4,-6,4,4,-15,-5,-8,-10,]),'ID':([0,3,4,14,15,17,18,19,30,32,33,35,38,39,40,41,43,45,55,56,58,59,63,64,],[5,5,12,21,5,27,27,27,44,-24,-12,5,27,27,27,27,-4,-6,5,5,-15,-5,-8,-10,]),'KEYWORD_SEND':([0,3,15,32,33,35,43,45,55,56,58,59,63,64,],[6,6,6,-24,-12,6,-4,-6,6,6,-15,-5,-8,-10,]),'KEYWORD_IF':([0,3,15,32,33,35,43,45,55,56,58,59,63,64,],[9,9,9,-24,-12,9,-4,-6,9,9,-15,-5,-8,-10,]),'KEYWORD_SWITCH':([0,3,15,32,33,35,43,45,55,56,58,59,63,64,],[10,10,10,-24,-12,10,-4,-6,10,10,-15,-5,-8,-10,]),'RBRACE':([3,11,15,16,22,23,24,32,33,34,43,45,55,56,59,60,61,62,63,64,],[-3,-2,-3,-17,32,33,-14,-24,-12,-13,-4,-6,-3,-3,-5,63,64,-16,-8,-10,]),'KEYWORD_BREAK':([3,11,32,33,35,43,45,48,58,59,63,64,],[-3,-2,-24,-12,-3,-4,-6,57,-15,-5,-8,-10,]),'ASSIGN':([5,12,],[13,19,]),'LPAREN':([6,9,10,20,],[14,17,18,30,]),'LBRACE':([7,8,37,42,46,47,],[15,16,-7,-11,-9,56,]),'KEYWORD_ENCRYPT':([13,],[20,]),'KEYWORD_CASE':([16,23,24,34,62,],[-17,36,-14,-13,-16,]),'NUMBER':([17,18,19,36,38,39,40,41,],[26,26,26,49,26,26,26,26,]),'RPAREN':([21,25,26,27,28,44,50,51,52,53,],[31,37,-22,-23,42,54,-18,-19,-20,-21,]),'PLUS':([25,26,27,28,29,50,51,52,53,],[38,-22,-23,38,38,38,38,38,38,]),'MINUS':([25,26,27,28,29,50,51,52,53,],[39,-22,-23,39,39,39,39,39,39,]),'GT':([25,26,27,28,29,50,51,52,53,],[40,-22,-23,40,40,40,40,40,40,]),'LT':([25,26,27,28,29,50,51,52,53,],[41,-22,-23,41,41,41,41,41,41,]),'SEMI':([26,27,29,31,50,51,52,53,54,57,],[-22,-23,43,45,-18,-19,-20,-21,59,62,]),'KEYWORD_ELSE':([32,],[46,]),'COLON':([49,],[58,]),}
+_lr_action_items = {'$end':([0,1,2,3,11,32,38,39,45,51,61,65,66,],[-3,0,-1,-3,-2,-7,-9,-14,-4,-6,-5,-10,-12,]),'KEYWORD_SECRET':([0,3,15,32,38,39,41,45,51,57,58,60,61,65,66,],[4,4,4,-7,-9,-14,4,-4,-6,4,4,-17,-5,-10,-12,]),'ID':([0,3,4,13,14,15,17,18,19,31,32,33,34,35,36,38,39,41,45,51,57,58,60,61,65,66,],[5,5,12,20,24,5,20,20,20,46,-7,20,20,20,20,-9,-14,5,-4,-6,5,5,-17,-5,-10,-12,]),'KEYWORD_SEND':([0,3,15,32,38,39,41,45,51,57,58,60,61,65,66,],[6,6,6,-7,-9,-14,6,-4,-6,6,6,-17,-5,-10,-12,]),'KEYWORD_IF':([0,3,15,32,38,39,41,45,51,57,58,60,61,65,66,],[9,9,9,-7,-9,-14,9,-4,-6,9,9,-17,-5,-10,-12,]),'KEYWORD_SWITCH':([0,3,15,32,38,39,41,45,51,57,58,60,61,65,66,],[10,10,10,-7,-9,-14,10,-4,-6,10,10,-17,-5,-10,-12,]),'RBRACE':([3,11,15,16,25,26,27,32,38,39,40,45,51,57,58,61,62,63,64,65,66,],[-3,-2,-3,-19,38,39,-16,-7,-9,-14,-15,-4,-6,-3,-3,-5,65,66,-18,-10,-12,]),'KEYWORD_BREAK':([3,11,32,38,39,41,45,51,54,60,61,65,66,],[-3,-2,-7,-9,-14,-3,-4,-6,59,-17,-5,-10,-12,]),'ASSIGN':([5,12,],[13,19,]),'LPAREN':([6,9,10,21,],[14,17,18,31,]),'LBRACE':([7,8,43,44,52,53,],[15,16,-8,-13,-11,58,]),'KEYWORD_ENCRYPT':([13,],[21,]),'NUMBER':([13,17,18,19,33,34,35,36,42,],[23,23,23,23,23,23,23,23,55,]),'KEYWORD_CASE':([16,26,27,40,64,],[-19,42,-16,-15,-18,]),'SEMI':([20,22,23,30,37,47,48,49,50,56,59,],[-25,32,-24,45,51,-20,-21,-22,-23,61,64,]),'PLUS':([20,22,23,28,29,30,47,48,49,50,],[-25,33,-24,33,33,33,33,33,33,33,]),'MINUS':([20,22,23,28,29,30,47,48,49,50,],[-25,34,-24,34,34,34,34,34,34,34,]),'GT':([20,22,23,28,29,30,47,48,49,50,],[-25,35,-24,35,35,35,35,35,35,35,]),'LT':([20,22,23,28,29,30,47,48,49,50,],[-25,36,-24,36,36,36,36,36,36,36,]),'RPAREN':([20,23,24,28,29,46,47,48,49,50,],[-25,-24,37,43,44,56,-20,-21,-22,-23,]),'KEYWORD_ELSE':([38,],[52,]),'COLON':([55,],[60,]),}
 
 _lr_action = {}
 for _k, _v in _lr_action_items.items():
@@ -17,7 +17,7 @@ for _k, _v in _lr_action_items.items():
       _lr_action[_x][_k] = _y
 del _lr_action_items
 
-_lr_goto_items = {'program':([0,],[1,]),'statements':([0,3,15,35,55,56,],[2,11,22,48,60,61,]),'statement':([0,3,15,35,55,56,],[3,3,3,3,3,3,]),'if_head':([0,3,15,35,55,56,],[7,7,7,7,7,7,]),'switch_head':([0,3,15,35,55,56,],[8,8,8,8,8,8,]),'cases':([16,],[23,]),'empty':([16,],[24,]),'expression':([17,18,19,38,39,40,41,],[25,28,29,50,51,52,53,]),'case':([23,],[34,]),'case_head':([23,],[35,]),'else_marker':([32,],[47,]),}
+_lr_goto_items = {'program':([0,],[1,]),'statements':([0,3,15,41,57,58,],[2,11,25,54,62,63,]),'statement':([0,3,15,41,57,58,],[3,3,3,3,3,3,]),'if_head':([0,3,15,41,57,58,],[7,7,7,7,7,7,]),'switch_head':([0,3,15,41,57,58,],[8,8,8,8,8,8,]),'expression':([13,17,18,19,33,34,35,36,],[22,28,29,30,47,48,49,50,]),'cases':([16,],[26,]),'empty':([16,],[27,]),'case':([26,],[40,]),'case_head':([26,],[41,]),'else_marker':([38,],[53,]),}
 
 _lr_goto = {}
 for _k, _v in _lr_goto_items.items():
@@ -33,22 +33,23 @@ _lr_productions = [
   ('statement -> KEYWORD_SECRET ID ASSIGN expression SEMI','statement',5,'p_statement_secret','parser.py',28),
   ('statement -> ID ASSIGN KEYWORD_ENCRYPT LPAREN ID RPAREN SEMI','statement',7,'p_statement_encrypt','parser.py',37),
   ('statement -> KEYWORD_SEND LPAREN ID RPAREN SEMI','statement',5,'p_statement_send','parser.py',46),
-  ('if_head -> KEYWORD_IF LPAREN expression RPAREN','if_head',4,'p_if_head','parser.py',61),
-  ('statement -> if_head LBRACE statements RBRACE KEYWORD_ELSE LBRACE statements RBRACE','statement',8,'p_statement_if_else','parser.py',74),
-  ('else_marker -> KEYWORD_ELSE','else_marker',1,'p_else_marker','parser.py',105),
-  ('statement -> if_head LBRACE statements RBRACE else_marker LBRACE statements RBRACE','statement',8,'p_statement_if_else_fixed','parser.py',118),
-  ('switch_head -> KEYWORD_SWITCH LPAREN expression RPAREN','switch_head',4,'p_switch_head','parser.py',129),
-  ('statement -> switch_head LBRACE cases RBRACE','statement',4,'p_statement_switch','parser.py',135),
-  ('cases -> cases case','cases',2,'p_cases','parser.py',140),
-  ('cases -> empty','cases',1,'p_cases','parser.py',141),
-  ('case_head -> KEYWORD_CASE NUMBER COLON','case_head',3,'p_case_head','parser.py',145),
-  ('case -> case_head statements KEYWORD_BREAK SEMI','case',4,'p_case','parser.py',157),
-  ('empty -> <empty>','empty',0,'p_empty','parser.py',164),
-  ('expression -> expression PLUS expression','expression',3,'p_expression_binop','parser.py',170),
-  ('expression -> expression MINUS expression','expression',3,'p_expression_binop','parser.py',171),
-  ('expression -> expression GT expression','expression',3,'p_expression_binop','parser.py',172),
-  ('expression -> expression LT expression','expression',3,'p_expression_binop','parser.py',173),
-  ('expression -> NUMBER','expression',1,'p_expression_number','parser.py',190),
-  ('expression -> ID','expression',1,'p_expression_id','parser.py',194),
-  ('statement -> if_head LBRACE statements RBRACE','statement',4,'p_statement_if','parser.py',207),
+  ('statement -> ID ASSIGN expression SEMI','statement',4,'p_statement_assign','parser.py',52),
+  ('if_head -> KEYWORD_IF LPAREN expression RPAREN','if_head',4,'p_if_head','parser.py',80),
+  ('statement -> if_head LBRACE statements RBRACE','statement',4,'p_statement_if','parser.py',88),
+  ('statement -> if_head LBRACE statements RBRACE KEYWORD_ELSE LBRACE statements RBRACE','statement',8,'p_statement_if_else','parser.py',93),
+  ('else_marker -> KEYWORD_ELSE','else_marker',1,'p_else_marker','parser.py',124),
+  ('statement -> if_head LBRACE statements RBRACE else_marker LBRACE statements RBRACE','statement',8,'p_statement_if_else_fixed','parser.py',137),
+  ('switch_head -> KEYWORD_SWITCH LPAREN expression RPAREN','switch_head',4,'p_switch_head','parser.py',148),
+  ('statement -> switch_head LBRACE cases RBRACE','statement',4,'p_statement_switch','parser.py',154),
+  ('cases -> cases case','cases',2,'p_cases','parser.py',159),
+  ('cases -> empty','cases',1,'p_cases','parser.py',160),
+  ('case_head -> KEYWORD_CASE NUMBER COLON','case_head',3,'p_case_head','parser.py',164),
+  ('case -> case_head statements KEYWORD_BREAK SEMI','case',4,'p_case','parser.py',176),
+  ('empty -> <empty>','empty',0,'p_empty','parser.py',183),
+  ('expression -> expression PLUS expression','expression',3,'p_expression_binop','parser.py',189),
+  ('expression -> expression MINUS expression','expression',3,'p_expression_binop','parser.py',190),
+  ('expression -> expression GT expression','expression',3,'p_expression_binop','parser.py',191),
+  ('expression -> expression LT expression','expression',3,'p_expression_binop','parser.py',192),
+  ('expression -> NUMBER','expression',1,'p_expression_number','parser.py',224),
+  ('expression -> ID','expression',1,'p_expression_id','parser.py',228),
 ]

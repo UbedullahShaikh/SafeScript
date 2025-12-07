@@ -24,6 +24,10 @@ tokens = (
     'KEYWORD_DEFAULT',
     'KEYWORD_BREAK',
     'COLON',
+    'KEYWORD_LOGIN',
+    'KEYWORD_AS',
+    'KEYWORD_ADMIN',
+    'KEYWORD_GUEST',
 )
 
 t_ASSIGN = r'='
@@ -60,6 +64,22 @@ def t_KEYWORD_DEFAULT(t):
 
 def t_KEYWORD_BREAK(t):
     r'break'
+    return t
+
+def t_KEYWORD_LOGIN(t):
+    r'login'
+    return t
+
+def t_KEYWORD_AS(t):
+    r'as'
+    return t
+
+def t_KEYWORD_ADMIN(t):
+    r'admin'
+    return t
+
+def t_KEYWORD_GUEST(t):
+    r'guest'
     return t
 
 def t_KEYWORD_SECRET(t):

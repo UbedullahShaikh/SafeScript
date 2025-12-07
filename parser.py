@@ -48,6 +48,33 @@ def p_statement_send(p):
     semantic_analyzer.check_security(var_name)
     tac_generator.emit(f"send({var_name})")
 
+def p_statement_assign(p):
+    'statement : ID ASSIGN expression SEMI'
+    var_name = p[1]
+    value = p[3]
+    
+    # Check if variable exists (optional, but good practice)
+    # symbol_table.check_exists(var_name) 
+    # For now, we assume it exists or we create it? 
+    # Let's assume it exists. If it's a new var, it should be declared with 'secret' or 'int' (if we had int).
+    # Since we only have 'secret' declaration, this must be an update.
+    
+    # If updating a secret variable with a non-secret value, does it become public?
+    # Or if updating with tainted value, it becomes tainted.
+    # For simplicity, let's just generate code.
+    
+    t = tac_generator.new_temp()
+    tac_generator.emit(f"{t} = {value}")
+    tac_generator.emit(f"{var_name} = {t}")
+
+def p_statement_login(p):
+    '''statement : KEYWORD_LOGIN KEYWORD_AS KEYWORD_ADMIN SEMI
+                 | KEYWORD_LOGIN KEYWORD_AS KEYWORD_GUEST SEMI'''
+    if p[3] == 'admin':
+        semantic_analyzer.set_role('admin')
+    else:
+        semantic_analyzer.set_role('guest')
+
 # --- Control Flow Rules ---
 
 # --- Control Flow Rules ---
@@ -171,12 +198,27 @@ def p_expression_binop(p):
                   | expression MINUS expression
                   | expression GT expression
                   | expression LT expression'''
+    
+    # Constant Folding Optimization
+    if isinstance(p[1], int) and isinstance(p[3], int):
+        if p[2] == '+':
+            p[0] = p[1] + p[3]
+            print(f"[Optimization] Constant Folding: {p[1]} + {p[3]} = {p[0]}")
+            return
+        elif p[2] == '-':
+            p[0] = p[1] - p[3]
+            print(f"[Optimization] Constant Folding: {p[1]} - {p[3]} = {p[0]}")
+            return
+    
+    # Code Generation for non-constant expressions
     if p[2] == '+':
-        p[0] = p[1] + p[3]
-        print(f"[Optimization] Constant Folding: {p[1]} + {p[3]} = {p[0]}")
+        t = tac_generator.new_temp()
+        tac_generator.emit(f"{t} = {p[1]} + {p[3]}")
+        p[0] = t
     elif p[2] == '-':
-        p[0] = p[1] - p[3]
-        print(f"[Optimization] Constant Folding: {p[1]} - {p[3]} = {p[0]}")
+        t = tac_generator.new_temp()
+        tac_generator.emit(f"{t} = {p[1]} - {p[3]}")
+        p[0] = t
     elif p[2] == '>':
         t = tac_generator.new_temp()
         tac_generator.emit(f"{t} = {p[1]} > {p[3]}")
@@ -194,21 +236,7 @@ def p_expression_id(p):
     'expression : ID'
     p[0] = p[1]
 
-# Precedence to handle dangling-else
-precedence = (
-    ('nonassoc', 'LOWER_THAN_ELSE'),
-    ('nonassoc', 'KEYWORD_ELSE'),
-)
 
-# --- Grammar Rules ---
-# ... (existing rules) ...
-
-def p_statement_if(p):
-    'statement : if_head LBRACE statements RBRACE %prec LOWER_THAN_ELSE'
-    l_else, l_end = p[1]
-    tac_generator.emit_label(l_else)
-
-# ... (rest of rules) ...
 
 def p_error(p):
     if p:
