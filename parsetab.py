@@ -6,9 +6,9 @@ _tabversion = '3.10'
 
 _lr_method = 'LALR'
 
-_lr_signature = 'ASSIGN ID KEYWORD_ENCRYPT KEYWORD_PUBLIC KEYWORD_SECRET KEYWORD_SEND LPAREN NUMBER RPAREN SEMIstatement : KEYWORD_SECRET ID ASSIGN NUMBER SEMIstatement : ID ASSIGN KEYWORD_ENCRYPT LPAREN ID RPAREN SEMIstatement : KEYWORD_SEND LPAREN ID RPAREN SEMI'
+_lr_signature = 'ASSIGN ID KEYWORD_ENCRYPT KEYWORD_PUBLIC KEYWORD_SECRET KEYWORD_SEND LPAREN MINUS NUMBER PLUS RPAREN SEMIstatement : KEYWORD_SECRET ID ASSIGN expression SEMIexpression : expression PLUS expression\n                  | expression MINUS expressionexpression : NUMBERstatement : ID ASSIGN KEYWORD_ENCRYPT LPAREN ID RPAREN SEMIstatement : KEYWORD_SEND LPAREN ID RPAREN SEMI'
     
-_lr_action_items = {'KEYWORD_SECRET':([0,],[2,]),'ID':([0,2,7,12,],[3,5,10,15,]),'KEYWORD_SEND':([0,],[4,]),'$end':([1,14,16,18,],[0,-1,-3,-2,]),'ASSIGN':([3,5,],[6,8,]),'LPAREN':([4,9,],[7,12,]),'KEYWORD_ENCRYPT':([6,],[9,]),'NUMBER':([8,],[11,]),'RPAREN':([10,15,],[13,17,]),'SEMI':([11,13,17,],[14,16,18,]),}
+_lr_action_items = {'KEYWORD_SECRET':([0,],[2,]),'ID':([0,2,7,13,],[3,5,10,18,]),'KEYWORD_SEND':([0,],[4,]),'$end':([1,15,19,23,],[0,-1,-6,-5,]),'ASSIGN':([3,5,],[6,8,]),'LPAREN':([4,9,],[7,13,]),'KEYWORD_ENCRYPT':([6,],[9,]),'NUMBER':([8,16,17,],[12,12,12,]),'RPAREN':([10,18,],[14,22,]),'SEMI':([11,12,14,20,21,22,],[15,-4,19,-2,-3,23,]),'PLUS':([11,12,20,21,],[16,-4,16,16,]),'MINUS':([11,12,20,21,],[17,-4,17,17,]),}
 
 _lr_action = {}
 for _k, _v in _lr_action_items.items():
@@ -17,7 +17,7 @@ for _k, _v in _lr_action_items.items():
       _lr_action[_x][_k] = _y
 del _lr_action_items
 
-_lr_goto_items = {'statement':([0,],[1,]),}
+_lr_goto_items = {'statement':([0,],[1,]),'expression':([8,16,17,],[11,20,21,]),}
 
 _lr_goto = {}
 for _k, _v in _lr_goto_items.items():
@@ -27,7 +27,10 @@ for _k, _v in _lr_goto_items.items():
 del _lr_goto_items
 _lr_productions = [
   ("S' -> statement","S'",1,None,None,None),
-  ('statement -> KEYWORD_SECRET ID ASSIGN NUMBER SEMI','statement',5,'p_statement_secret','parser.py',10),
-  ('statement -> ID ASSIGN KEYWORD_ENCRYPT LPAREN ID RPAREN SEMI','statement',7,'p_statement_encrypt','parser.py',23),
-  ('statement -> KEYWORD_SEND LPAREN ID RPAREN SEMI','statement',5,'p_statement_send','parser.py',36),
+  ('statement -> KEYWORD_SECRET ID ASSIGN expression SEMI','statement',5,'p_statement_secret','parser.py',10),
+  ('expression -> expression PLUS expression','expression',3,'p_expression_binop','parser.py',23),
+  ('expression -> expression MINUS expression','expression',3,'p_expression_binop','parser.py',24),
+  ('expression -> NUMBER','expression',1,'p_expression_number','parser.py',33),
+  ('statement -> ID ASSIGN KEYWORD_ENCRYPT LPAREN ID RPAREN SEMI','statement',7,'p_statement_encrypt','parser.py',37),
+  ('statement -> KEYWORD_SEND LPAREN ID RPAREN SEMI','statement',5,'p_statement_send','parser.py',50),
 ]

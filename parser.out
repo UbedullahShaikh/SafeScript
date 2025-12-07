@@ -7,26 +7,32 @@ Unused terminals:
 Grammar
 
 Rule 0     S' -> statement
-Rule 1     statement -> KEYWORD_SECRET ID ASSIGN NUMBER SEMI
-Rule 2     statement -> ID ASSIGN KEYWORD_ENCRYPT LPAREN ID RPAREN SEMI
-Rule 3     statement -> KEYWORD_SEND LPAREN ID RPAREN SEMI
+Rule 1     statement -> KEYWORD_SECRET ID ASSIGN expression SEMI
+Rule 2     expression -> expression PLUS expression
+Rule 3     expression -> expression MINUS expression
+Rule 4     expression -> NUMBER
+Rule 5     statement -> ID ASSIGN KEYWORD_ENCRYPT LPAREN ID RPAREN SEMI
+Rule 6     statement -> KEYWORD_SEND LPAREN ID RPAREN SEMI
 
 Terminals, with rules where they appear
 
-ASSIGN               : 1 2
-ID                   : 1 2 2 3
-KEYWORD_ENCRYPT      : 2
+ASSIGN               : 1 5
+ID                   : 1 5 5 6
+KEYWORD_ENCRYPT      : 5
 KEYWORD_PUBLIC       : 
 KEYWORD_SECRET       : 1
-KEYWORD_SEND         : 3
-LPAREN               : 2 3
-NUMBER               : 1
-RPAREN               : 2 3
-SEMI                 : 1 2 3
+KEYWORD_SEND         : 6
+LPAREN               : 5 6
+MINUS                : 3
+NUMBER               : 4
+PLUS                 : 2
+RPAREN               : 5 6
+SEMI                 : 1 5 6
 error                : 
 
 Nonterminals, with rules where they appear
 
+expression           : 1 2 2 3 3
 statement            : 0
 
 Parsing method: LALR
@@ -34,9 +40,9 @@ Parsing method: LALR
 state 0
 
     (0) S' -> . statement
-    (1) statement -> . KEYWORD_SECRET ID ASSIGN NUMBER SEMI
-    (2) statement -> . ID ASSIGN KEYWORD_ENCRYPT LPAREN ID RPAREN SEMI
-    (3) statement -> . KEYWORD_SEND LPAREN ID RPAREN SEMI
+    (1) statement -> . KEYWORD_SECRET ID ASSIGN expression SEMI
+    (5) statement -> . ID ASSIGN KEYWORD_ENCRYPT LPAREN ID RPAREN SEMI
+    (6) statement -> . KEYWORD_SEND LPAREN ID RPAREN SEMI
 
     KEYWORD_SECRET  shift and go to state 2
     ID              shift and go to state 3
@@ -52,119 +58,197 @@ state 1
 
 state 2
 
-    (1) statement -> KEYWORD_SECRET . ID ASSIGN NUMBER SEMI
+    (1) statement -> KEYWORD_SECRET . ID ASSIGN expression SEMI
 
     ID              shift and go to state 5
 
 
 state 3
 
-    (2) statement -> ID . ASSIGN KEYWORD_ENCRYPT LPAREN ID RPAREN SEMI
+    (5) statement -> ID . ASSIGN KEYWORD_ENCRYPT LPAREN ID RPAREN SEMI
 
     ASSIGN          shift and go to state 6
 
 
 state 4
 
-    (3) statement -> KEYWORD_SEND . LPAREN ID RPAREN SEMI
+    (6) statement -> KEYWORD_SEND . LPAREN ID RPAREN SEMI
 
     LPAREN          shift and go to state 7
 
 
 state 5
 
-    (1) statement -> KEYWORD_SECRET ID . ASSIGN NUMBER SEMI
+    (1) statement -> KEYWORD_SECRET ID . ASSIGN expression SEMI
 
     ASSIGN          shift and go to state 8
 
 
 state 6
 
-    (2) statement -> ID ASSIGN . KEYWORD_ENCRYPT LPAREN ID RPAREN SEMI
+    (5) statement -> ID ASSIGN . KEYWORD_ENCRYPT LPAREN ID RPAREN SEMI
 
     KEYWORD_ENCRYPT shift and go to state 9
 
 
 state 7
 
-    (3) statement -> KEYWORD_SEND LPAREN . ID RPAREN SEMI
+    (6) statement -> KEYWORD_SEND LPAREN . ID RPAREN SEMI
 
     ID              shift and go to state 10
 
 
 state 8
 
-    (1) statement -> KEYWORD_SECRET ID ASSIGN . NUMBER SEMI
+    (1) statement -> KEYWORD_SECRET ID ASSIGN . expression SEMI
+    (2) expression -> . expression PLUS expression
+    (3) expression -> . expression MINUS expression
+    (4) expression -> . NUMBER
 
-    NUMBER          shift and go to state 11
+    NUMBER          shift and go to state 12
 
+    expression                     shift and go to state 11
 
 state 9
 
-    (2) statement -> ID ASSIGN KEYWORD_ENCRYPT . LPAREN ID RPAREN SEMI
+    (5) statement -> ID ASSIGN KEYWORD_ENCRYPT . LPAREN ID RPAREN SEMI
 
-    LPAREN          shift and go to state 12
+    LPAREN          shift and go to state 13
 
 
 state 10
 
-    (3) statement -> KEYWORD_SEND LPAREN ID . RPAREN SEMI
+    (6) statement -> KEYWORD_SEND LPAREN ID . RPAREN SEMI
 
-    RPAREN          shift and go to state 13
+    RPAREN          shift and go to state 14
 
 
 state 11
 
-    (1) statement -> KEYWORD_SECRET ID ASSIGN NUMBER . SEMI
+    (1) statement -> KEYWORD_SECRET ID ASSIGN expression . SEMI
+    (2) expression -> expression . PLUS expression
+    (3) expression -> expression . MINUS expression
 
-    SEMI            shift and go to state 14
+    SEMI            shift and go to state 15
+    PLUS            shift and go to state 16
+    MINUS           shift and go to state 17
 
 
 state 12
 
-    (2) statement -> ID ASSIGN KEYWORD_ENCRYPT LPAREN . ID RPAREN SEMI
+    (4) expression -> NUMBER .
 
-    ID              shift and go to state 15
+    SEMI            reduce using rule 4 (expression -> NUMBER .)
+    PLUS            reduce using rule 4 (expression -> NUMBER .)
+    MINUS           reduce using rule 4 (expression -> NUMBER .)
 
 
 state 13
 
-    (3) statement -> KEYWORD_SEND LPAREN ID RPAREN . SEMI
+    (5) statement -> ID ASSIGN KEYWORD_ENCRYPT LPAREN . ID RPAREN SEMI
 
-    SEMI            shift and go to state 16
+    ID              shift and go to state 18
 
 
 state 14
 
-    (1) statement -> KEYWORD_SECRET ID ASSIGN NUMBER SEMI .
+    (6) statement -> KEYWORD_SEND LPAREN ID RPAREN . SEMI
 
-    $end            reduce using rule 1 (statement -> KEYWORD_SECRET ID ASSIGN NUMBER SEMI .)
+    SEMI            shift and go to state 19
 
 
 state 15
 
-    (2) statement -> ID ASSIGN KEYWORD_ENCRYPT LPAREN ID . RPAREN SEMI
+    (1) statement -> KEYWORD_SECRET ID ASSIGN expression SEMI .
 
-    RPAREN          shift and go to state 17
+    $end            reduce using rule 1 (statement -> KEYWORD_SECRET ID ASSIGN expression SEMI .)
 
 
 state 16
 
-    (3) statement -> KEYWORD_SEND LPAREN ID RPAREN SEMI .
+    (2) expression -> expression PLUS . expression
+    (2) expression -> . expression PLUS expression
+    (3) expression -> . expression MINUS expression
+    (4) expression -> . NUMBER
 
-    $end            reduce using rule 3 (statement -> KEYWORD_SEND LPAREN ID RPAREN SEMI .)
+    NUMBER          shift and go to state 12
 
+    expression                     shift and go to state 20
 
 state 17
 
-    (2) statement -> ID ASSIGN KEYWORD_ENCRYPT LPAREN ID RPAREN . SEMI
+    (3) expression -> expression MINUS . expression
+    (2) expression -> . expression PLUS expression
+    (3) expression -> . expression MINUS expression
+    (4) expression -> . NUMBER
 
-    SEMI            shift and go to state 18
+    NUMBER          shift and go to state 12
 
+    expression                     shift and go to state 21
 
 state 18
 
-    (2) statement -> ID ASSIGN KEYWORD_ENCRYPT LPAREN ID RPAREN SEMI .
+    (5) statement -> ID ASSIGN KEYWORD_ENCRYPT LPAREN ID . RPAREN SEMI
 
-    $end            reduce using rule 2 (statement -> ID ASSIGN KEYWORD_ENCRYPT LPAREN ID RPAREN SEMI .)
+    RPAREN          shift and go to state 22
 
+
+state 19
+
+    (6) statement -> KEYWORD_SEND LPAREN ID RPAREN SEMI .
+
+    $end            reduce using rule 6 (statement -> KEYWORD_SEND LPAREN ID RPAREN SEMI .)
+
+
+state 20
+
+    (2) expression -> expression PLUS expression .
+    (2) expression -> expression . PLUS expression
+    (3) expression -> expression . MINUS expression
+
+  ! shift/reduce conflict for PLUS resolved as shift
+  ! shift/reduce conflict for MINUS resolved as shift
+    SEMI            reduce using rule 2 (expression -> expression PLUS expression .)
+    PLUS            shift and go to state 16
+    MINUS           shift and go to state 17
+
+  ! PLUS            [ reduce using rule 2 (expression -> expression PLUS expression .) ]
+  ! MINUS           [ reduce using rule 2 (expression -> expression PLUS expression .) ]
+
+
+state 21
+
+    (3) expression -> expression MINUS expression .
+    (2) expression -> expression . PLUS expression
+    (3) expression -> expression . MINUS expression
+
+  ! shift/reduce conflict for PLUS resolved as shift
+  ! shift/reduce conflict for MINUS resolved as shift
+    SEMI            reduce using rule 3 (expression -> expression MINUS expression .)
+    PLUS            shift and go to state 16
+    MINUS           shift and go to state 17
+
+  ! PLUS            [ reduce using rule 3 (expression -> expression MINUS expression .) ]
+  ! MINUS           [ reduce using rule 3 (expression -> expression MINUS expression .) ]
+
+
+state 22
+
+    (5) statement -> ID ASSIGN KEYWORD_ENCRYPT LPAREN ID RPAREN . SEMI
+
+    SEMI            shift and go to state 23
+
+
+state 23
+
+    (5) statement -> ID ASSIGN KEYWORD_ENCRYPT LPAREN ID RPAREN SEMI .
+
+    $end            reduce using rule 5 (statement -> ID ASSIGN KEYWORD_ENCRYPT LPAREN ID RPAREN SEMI .)
+
+WARNING: 
+WARNING: Conflicts:
+WARNING: 
+WARNING: shift/reduce conflict for PLUS in state 20 resolved as shift
+WARNING: shift/reduce conflict for MINUS in state 20 resolved as shift
+WARNING: shift/reduce conflict for PLUS in state 21 resolved as shift
+WARNING: shift/reduce conflict for MINUS in state 21 resolved as shift

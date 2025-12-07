@@ -11,12 +11,16 @@ tokens = (
     'NUMBER',
     'LPAREN',
     'RPAREN',
+    'PLUS',
+    'MINUS',
 )
 
 t_ASSIGN = r'='
 t_SEMI = r';'
 t_LPAREN = r'\('
 t_RPAREN = r'\)'
+t_PLUS = r'\+'
+t_MINUS = r'-'
 
 def t_KEYWORD_SECRET(t):
     r'secret'

@@ -7,7 +7,7 @@ import tac_generator
 # --- Grammar Rules ---
 
 def p_statement_secret(p):
-    'statement : KEYWORD_SECRET ID ASSIGN NUMBER SEMI'
+    'statement : KEYWORD_SECRET ID ASSIGN expression SEMI'
     var_name = p[2]
     value = p[4]
     
@@ -18,6 +18,20 @@ def p_statement_secret(p):
     t = tac_generator.new_temp()
     tac_generator.emit(f"{t} = {value}")
     tac_generator.emit(f"{var_name} = {t}")
+
+def p_expression_binop(p):
+    '''expression : expression PLUS expression
+                  | expression MINUS expression'''
+    if p[2] == '+':
+        p[0] = p[1] + p[3]
+        print(f"[Optimization] Constant Folding: {p[1]} + {p[3]} = {p[0]}")
+    elif p[2] == '-':
+        p[0] = p[1] - p[3]
+        print(f"[Optimization] Constant Folding: {p[1]} - {p[3]} = {p[0]}")
+
+def p_expression_number(p):
+    'expression : NUMBER'
+    p[0] = p[1]
 
 def p_statement_encrypt(p):
     'statement : ID ASSIGN KEYWORD_ENCRYPT LPAREN ID RPAREN SEMI'
