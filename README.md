@@ -1,0 +1,72 @@
+# SafeScript Compiler (.sfs)
+
+A secure, optimizing compiler for the **SafeScript** language. This compiler is designed to enforce security rules (Taint Analysis) and optimize code (Constant Folding) while generating Three Address Code (TAC).
+
+## 🚀 Key Features
+
+1.  **Security First (Taint Analysis)** 🛡️
+    - Automatically detects "Secret" variables.
+    - **Blocks** any attempt to send secret data to the network without encryption.
+    - *Example:* `send(secret_var);` -> **ERROR!**
+
+2.  **Smart Optimization (Constant Folding)** ⚡
+    - Calculates mathematical expressions at compile time to save CPU cycles.
+    - *Example:* `x = 10 + 20;` becomes `x = 30` in the final code.
+
+3.  **Decision Making (Control Flow)** 🔀
+    - Supports `if` statements and comparisons (`>`, `<`).
+    - Generates logical TAC with `goto` and `Labels`.
+
+4.  **Enterprise Security (RBAC)** 🔐
+    - **Role-Based Access Control**: Distinguishes between `Admin` and `Guest`.
+    - **Strict Policy**: Guests are completely blocked from touching Secret data.
+
+5.  **Professional C-Style Syntax** 💻
+    - Uses familiar syntax like `int x = 10;`, `send(x);`, and `encrypt(x);`.
+
+6.  **Modular Architecture** 🏗️
+    - Split into 5 distinct components for easy understanding:
+        - `lexer.py`: Tokenizer
+        - `parser.py`: Grammar & Logic
+        - `symbol_table.py`: Variable Database
+        - `semantic_analyzer.py`: Security Guard
+        - `tac_generator.py`: Code Generator
+
+## 🛠️ Installation
+
+1.  **Clone the repository** (if you haven't already).
+2.  **Set up the environment**:
+    The project uses a virtual environment.
+    ```bash
+    # Activate the environment (Linux/Mac)
+    source myenv/bin/activate
+    ```
+3.  **Install Dependencies**:
+    ```bash
+    pip install ply
+    ```
+
+## 🏃‍♂️ How to Run
+
+You can run the compiler on the provided demo files.
+
+**1. Test the Security System (Should Fail):**
+```bash
+python main.py demo.sfs
+```
+*Expected Output:* `SECURITY ALERT! 'x' is Secret. Encrypt it before sending!`
+
+**2. Test the Safe Flow (Should Pass):**
+```bash
+python main.py demo_safe.sfs
+```
+*Expected Output:* `Compilation Successful!` with generated TAC code.
+
+## 📂 Project Structure
+
+- **`main.py`**: The entry point of the compiler.
+- **`lexer.py`**: Breaks code into tokens (words).
+- **`parser.py`**: Understands the grammar and runs logic.
+- **`symbol_table.py`**: Stores variable details (Type, Tainted Status).
+- **`semantic_analyzer.py`**: Checks security rules.
+- **`tac_generator.py`**: Generates the final machine-readable code.
