@@ -46,6 +46,23 @@ A secure, optimizing compiler for the **SafeScript** language. This compiler is 
     source venv/bin/activate
     ```
 
+## 🧪 Testing
+
+The project includes a suite of test cases to verify security, optimization, and control flow.
+
+### Running Tests
+To run all test cases automatically:
+```bash
+chmod +x run_tests.sh
+./run_tests.sh
+```
+
+### Test Cases Description
+- **`test_security_fail.sfs`**: Attempts to send a secret variable without encryption. **Expected Result: FAIL (Security Violation)**.
+- **`test_optimization.sfs`**: Demonstrates constant folding (e.g., `10 + 20` -> `30`). **Expected Result: PASS**.
+- **`test_control_flow.sfs`**: Tests `if-else` and `switch-case` logic. **Expected Result: PASS**.
+- **`test_rbac.sfs`**: Tests Guest vs Admin access control. **Expected Result: FAIL (Access Denied)**.
+
 ## 🏃‍♂️ How to Run
  
 You can run the compiler on the master demo file which showcases all features.
