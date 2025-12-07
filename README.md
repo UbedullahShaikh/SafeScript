@@ -35,15 +35,15 @@ A secure, optimizing compiler for the **SafeScript** language. This compiler is 
 ## 🛠️ Installation
 
 1.  **Clone the repository** (if you haven't already).
-2.  **Set up the environment**:
-    The project uses a virtual environment.
+2.  **Run the setup script**:
+    This script will create a virtual environment and install all dependencies.
     ```bash
-    # Activate the environment (Linux/Mac)
-    source myenv/bin/activate
+    chmod +x setup.sh
+    ./setup.sh
     ```
-3.  **Install Dependencies**:
+3.  **Activate the environment**:
     ```bash
-    pip install ply
+    source venv/bin/activate
     ```
 
 ## 🏃‍♂️ How to Run
