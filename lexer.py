@@ -18,6 +18,12 @@ tokens = (
     'RBRACE',
     'GT',
     'LT',
+    'KEYWORD_ELSE',
+    'KEYWORD_SWITCH',
+    'KEYWORD_CASE',
+    'KEYWORD_DEFAULT',
+    'KEYWORD_BREAK',
+    'COLON',
 )
 
 t_ASSIGN = r'='
@@ -30,9 +36,30 @@ t_LBRACE = r'\{'
 t_RBRACE = r'\}'
 t_GT = r'>'
 t_LT = r'<'
+t_COLON = r':'
 
 def t_KEYWORD_IF(t):
     r'if'
+    return t
+
+def t_KEYWORD_ELSE(t):
+    r'else'
+    return t
+
+def t_KEYWORD_SWITCH(t):
+    r'switch'
+    return t
+
+def t_KEYWORD_CASE(t):
+    r'case'
+    return t
+
+def t_KEYWORD_DEFAULT(t):
+    r'default'
+    return t
+
+def t_KEYWORD_BREAK(t):
+    r'break'
     return t
 
 def t_KEYWORD_SECRET(t):
