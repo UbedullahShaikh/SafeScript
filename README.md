@@ -22,7 +22,7 @@ A secure, optimizing compiler for the **SafeScript** language. This compiler is 
     - **Strict Policy**: Guests are completely blocked from touching Secret data.
 
 5.  **Professional C-Style Syntax** 💻
-    - Uses familiar syntax like `int x = 10;`, `send(x);`, and `encrypt(x);`.
+    - Uses familiar syntax like `x = 10;`, `send(x);`, and `encrypt(x);`.
 
 6.  **Modular Architecture** 🏗️
     - Split into 5 distinct components for easy understanding:
