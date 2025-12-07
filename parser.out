@@ -1,0 +1,170 @@
+Created by PLY version 3.11 (http://www.dabeaz.com/ply)
+
+Unused terminals:
+
+    KEYWORD_PUBLIC
+
+Grammar
+
+Rule 0     S' -> statement
+Rule 1     statement -> KEYWORD_SECRET ID ASSIGN NUMBER SEMI
+Rule 2     statement -> ID ASSIGN KEYWORD_ENCRYPT LPAREN ID RPAREN SEMI
+Rule 3     statement -> KEYWORD_SEND LPAREN ID RPAREN SEMI
+
+Terminals, with rules where they appear
+
+ASSIGN               : 1 2
+ID                   : 1 2 2 3
+KEYWORD_ENCRYPT      : 2
+KEYWORD_PUBLIC       : 
+KEYWORD_SECRET       : 1
+KEYWORD_SEND         : 3
+LPAREN               : 2 3
+NUMBER               : 1
+RPAREN               : 2 3
+SEMI                 : 1 2 3
+error                : 
+
+Nonterminals, with rules where they appear
+
+statement            : 0
+
+Parsing method: LALR
+
+state 0
+
+    (0) S' -> . statement
+    (1) statement -> . KEYWORD_SECRET ID ASSIGN NUMBER SEMI
+    (2) statement -> . ID ASSIGN KEYWORD_ENCRYPT LPAREN ID RPAREN SEMI
+    (3) statement -> . KEYWORD_SEND LPAREN ID RPAREN SEMI
+
+    KEYWORD_SECRET  shift and go to state 2
+    ID              shift and go to state 3
+    KEYWORD_SEND    shift and go to state 4
+
+    statement                      shift and go to state 1
+
+state 1
+
+    (0) S' -> statement .
+
+
+
+state 2
+
+    (1) statement -> KEYWORD_SECRET . ID ASSIGN NUMBER SEMI
+
+    ID              shift and go to state 5
+
+
+state 3
+
+    (2) statement -> ID . ASSIGN KEYWORD_ENCRYPT LPAREN ID RPAREN SEMI
+
+    ASSIGN          shift and go to state 6
+
+
+state 4
+
+    (3) statement -> KEYWORD_SEND . LPAREN ID RPAREN SEMI
+
+    LPAREN          shift and go to state 7
+
+
+state 5
+
+    (1) statement -> KEYWORD_SECRET ID . ASSIGN NUMBER SEMI
+
+    ASSIGN          shift and go to state 8
+
+
+state 6
+
+    (2) statement -> ID ASSIGN . KEYWORD_ENCRYPT LPAREN ID RPAREN SEMI
+
+    KEYWORD_ENCRYPT shift and go to state 9
+
+
+state 7
+
+    (3) statement -> KEYWORD_SEND LPAREN . ID RPAREN SEMI
+
+    ID              shift and go to state 10
+
+
+state 8
+
+    (1) statement -> KEYWORD_SECRET ID ASSIGN . NUMBER SEMI
+
+    NUMBER          shift and go to state 11
+
+
+state 9
+
+    (2) statement -> ID ASSIGN KEYWORD_ENCRYPT . LPAREN ID RPAREN SEMI
+
+    LPAREN          shift and go to state 12
+
+
+state 10
+
+    (3) statement -> KEYWORD_SEND LPAREN ID . RPAREN SEMI
+
+    RPAREN          shift and go to state 13
+
+
+state 11
+
+    (1) statement -> KEYWORD_SECRET ID ASSIGN NUMBER . SEMI
+
+    SEMI            shift and go to state 14
+
+
+state 12
+
+    (2) statement -> ID ASSIGN KEYWORD_ENCRYPT LPAREN . ID RPAREN SEMI
+
+    ID              shift and go to state 15
+
+
+state 13
+
+    (3) statement -> KEYWORD_SEND LPAREN ID RPAREN . SEMI
+
+    SEMI            shift and go to state 16
+
+
+state 14
+
+    (1) statement -> KEYWORD_SECRET ID ASSIGN NUMBER SEMI .
+
+    $end            reduce using rule 1 (statement -> KEYWORD_SECRET ID ASSIGN NUMBER SEMI .)
+
+
+state 15
+
+    (2) statement -> ID ASSIGN KEYWORD_ENCRYPT LPAREN ID . RPAREN SEMI
+
+    RPAREN          shift and go to state 17
+
+
+state 16
+
+    (3) statement -> KEYWORD_SEND LPAREN ID RPAREN SEMI .
+
+    $end            reduce using rule 3 (statement -> KEYWORD_SEND LPAREN ID RPAREN SEMI .)
+
+
+state 17
+
+    (2) statement -> ID ASSIGN KEYWORD_ENCRYPT LPAREN ID RPAREN . SEMI
+
+    SEMI            shift and go to state 18
+
+
+state 18
+
+    (2) statement -> ID ASSIGN KEYWORD_ENCRYPT LPAREN ID RPAREN SEMI .
+
+    $end            reduce using rule 2 (statement -> ID ASSIGN KEYWORD_ENCRYPT LPAREN ID RPAREN SEMI .)
+

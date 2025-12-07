@@ -1,0 +1,2 @@
+secret pass = 1234;
+send(pass);
